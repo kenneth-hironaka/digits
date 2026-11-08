@@ -5,6 +5,7 @@ import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import { Contact } from '@/lib/validationSchemas';
 import ContactCard from '@/components/ContactCard';
+import { Note } from '@prisma/client';
 
 /** Render a list of stuff for the logged in user. */
 const ListPage = async () => {
@@ -20,6 +21,11 @@ const ListPage = async () => {
     where: {
       owner,
     }
+  });
+  const notes: Note[] = await prisma.note.findMany({
+    where: {
+      owner,
+    }
   })
 
   return (
@@ -32,7 +38,9 @@ const ListPage = async () => {
           <Row xs={1} md={2} lg={3} className="g-4">
             {contacts.map((contact) => (
               <Col key={contact.firstName + contact.lastName}>
-                <ContactCard contact={contact} />
+                <ContactCard
+                  contact={contact}
+                  notes={notes.filter(note => (note.contactId === contact.id))}/>
               </Col>
             ))}
           </Row>
