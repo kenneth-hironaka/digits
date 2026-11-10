@@ -7,7 +7,7 @@ import { Contact } from '@/lib/validationSchemas';
 import { Note } from '@prisma/client';
 import ContactCard from '@/components/ContactCard';
 
-/** Render a list of stuff for the logged in user. */
+/** Render a list of contacts for the logged in user. */
 const ListPage = async () => {
   // Protect the page, only logged in users can access it.
   const session = await auth();
